@@ -2,9 +2,9 @@
 
 namespace App\Core;
 
-use Closure;
 use App\Core\App;
 use App\Core\Page;
+use Closure;
 
 class Menu
 {
