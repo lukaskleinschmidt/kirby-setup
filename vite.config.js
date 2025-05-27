@@ -65,11 +65,12 @@ function kirby(options) {
       }, config);
     },
     configureServer(server) {
-      const protocol = server.config.server.https ? 'https' : 'http';
-      const host = server.config.server.host || 'localhost';
-      const port = server.config.server.port || 5173;
-
       server.httpServer?.once('listening', () => {
+        const address = server.httpServer.address();
+        const protocol = server.config.server.https ? 'https' : 'http';
+        const host = server.config.server.host || address.address || 'localhost';
+        const port = server.config.server.port || address.port || 5173;
+
         fs.writeFileSync(file, `${protocol}://${host}:${port}`);
       });
 
