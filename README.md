@@ -17,7 +17,7 @@ npm install
 
 ### Create a certificate for local development:
 ```
-mkcert -key-file storage/key.pem -cert-file storage/cert.pem 'localhost'
+mkcert -key-file storage/key.pem -cert-file storage/cert.pem localhost 127.0.0.1
 ``` 
 
 ### Start the development server:
