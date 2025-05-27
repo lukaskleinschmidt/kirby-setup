@@ -1,0 +1,5 @@
+fields:
+  favorites:
+    label: Favorites
+    type: pages
+    max: 10
