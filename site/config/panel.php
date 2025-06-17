@@ -4,11 +4,10 @@ use App\Core\App;
 use App\Core\Menu;
 
 return [
+
     // https://getkirby.com/docs/reference/system/options/panel
 
-    // https://getkirby.com/docs/reference/system/options/panel#panel-menu
-    'menu' => function (App $kirby)
-    {
+    'menu' => function (App $kirby) {
         $pages = $kirby->user()?->favorites()->toPages()->map(fn ($page) =>
             Menu::page($page)
         )->data();
@@ -27,4 +26,10 @@ return [
             'system',
         ];
     },
+
+    'vite' => vite([
+        'resources/scripts/panel.js',
+        'resources/styles/panel.css',
+    ]),
+
 ];

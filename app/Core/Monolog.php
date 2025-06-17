@@ -10,7 +10,7 @@ class Monolog
 {
     public Logger $logger;
 
-    protected static Monolog|null $instance = null;
+    protected static ?Monolog $instance = null;
 
     public function __construct()
     {

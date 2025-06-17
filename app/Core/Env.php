@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use Dotenv\Dotenv;
 use Dotenv\Repository\Adapter\PutenvAdapter;
 use Dotenv\Repository\RepositoryBuilder;
 use Dotenv\Repository\RepositoryInterface;
@@ -12,17 +13,25 @@ use RuntimeException;
 class Env
 {
     /**
-     * Indicates if the putenv adapter is enabled.
+     * Indicates if the putenv adapter is enabled
      */
     protected static bool $putenv = true;
 
     /**
-     * The environment repository instance.
+     * The environment repository instance
      */
     protected static ?RepositoryInterface $repository = null;
 
     /**
-     * Enable the putenv adapter.
+     * Load the environment variables
+     */
+    public static function load(string|array $paths): void
+    {
+        Dotenv::createImmutable($paths)->load();
+    }
+
+    /**
+     * Enable the putenv adapter
      */
     public static function enablePutenv(): void
     {
@@ -31,7 +40,7 @@ class Env
     }
 
     /**
-     * Disable the putenv adapter.
+     * Disable the putenv adapter
      */
     public static function disablePutenv(): void
     {
@@ -40,7 +49,7 @@ class Env
     }
 
     /**
-     * Get the environment repository instance.
+     * Get the environment repository instance
      */
     public static function getRepository(): RepositoryInterface
     {
@@ -58,7 +67,7 @@ class Env
     }
 
     /**
-     * Get the value of an environment variable.
+     * Get the value of an environment variable
      */
     public static function get(string $key, mixed $default = null): mixed
     {
@@ -66,7 +75,7 @@ class Env
     }
 
     /**
-     * Get the value of a required environment variable.
+     * Get the value of a required environment variable
      *
      * @throws \RuntimeException
      */
@@ -76,7 +85,7 @@ class Env
     }
 
     /**
-     * Get the possible option for this environment variable.
+     * Get the possible option for this environment variable
      */
     protected static function getOption(string $key): Option|Some
     {

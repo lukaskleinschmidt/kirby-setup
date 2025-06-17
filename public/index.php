@@ -1,20 +1,19 @@
 <?php
 
 use App\Core\App;
-use Dotenv\Dotenv;
+use App\Core\Env;
 
 define('KIRBY_HELPER_DUMP', false);
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+// Register the Composer autoloader
+require __DIR__ . '/../vendor/autoload.php';
 
-/**
- * Load Environment Variables
- */
-Dotenv::createImmutable($base = dirname(__DIR__))->safeLoad();
+// Load the environment variables
+Env::load([
+    $base = dirname(__DIR__),
+]);
 
-/**
- * Create The Application
- */
+// Create the Kirby application
 $app = new App([
     'roots' => [
         'base'     => $base,

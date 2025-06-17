@@ -7,12 +7,27 @@ use Kirby\Data\Data;
 use Kirby\Filesystem\F;
 use Kirby\Toolkit\Html;
 use Kirby\Toolkit\Str;
+use Stringable;
 
-class Vite
+class Vite implements Stringable
 {
     protected string|false $host;
 
     protected array $manifest;
+
+    public function __construct(
+        public array $entries = [],
+    ) {}
+
+    public function __toString(): string
+    {
+        $entries = $this->resolve($this->entries);
+
+        $entries = array_values($entries);
+        $entries = array_merge(...$entries);
+
+        return implode('', $entries);
+    }
 
     public function dev(): bool
     {
@@ -34,16 +49,6 @@ class Vite
         );
     }
 
-    public function entries(array $input): string
-    {
-        $entries = $this->resolve($input);
-
-        $entries = array_values($entries);
-        $entries = array_merge(...$entries);
-
-        return implode('', $entries);
-    }
-
     public function asset(string $path, mixed $default = null): mixed
     {
         if ($this->dev()) {
@@ -59,18 +64,21 @@ class Vite
         return $default;
     }
 
-    public function resolve(array $input): array
+    public function resolve(?array $entries = null): array
     {
+        $entries ??= $this->entries;
+
         $preloads = [];
         $scripts  = [];
         $styles   = [];
         $vite     = [];
 
         if ($this->dev()) {
-            $vite['@vite/client'] = $this->script('@vite/client');
+            $url        = $this->url('@vite/client');
+            $vite[$url] = $this->script($url);
         }
 
-        foreach ($input as $file) {
+        foreach ($entries as $file) {
             $file = $this->file($file);
 
             if (is_null($file)) {
@@ -108,7 +116,8 @@ class Vite
             $imports = [];
 
             if ($preload = $manifest[$file]['file'] ?? null) {
-                $preloads[$preload] = $this->preload($preload);
+                $url            = $this->url($preload);
+                $preloads[$url] = $this->preload($url);
             }
 
             $this->resolveProd($file, $styles, $imports, $preloads);
@@ -122,11 +131,13 @@ class Vite
     protected function resolveFile(string $file, array &$scripts, array &$styles): void
     {
         if (preg_match('/\.(js|ts)$/', $file)) {
-            $scripts[$file] = $this->script($file);
+            $url           = $this->url($file);
+            $scripts[$url] = $this->script($url);
         }
 
         if (preg_match('/\.(css|scss|sass)$/', $file)) {
-            $styles[$file] = $this->style($file);
+            $url          = $this->url($file);
+            $styles[$url] = $this->style($url);
         }
     }
 
@@ -163,27 +174,27 @@ class Vite
         return Url::to('/build/' . $path);
     }
 
-    public function script(string $file): string
+    public function script(string $src): string
     {
         return Html::tag('script', attr: [
             'type' => 'module',
-            'src'  => $this->url($file),
+            'src'  => $src,
         ]);
     }
 
-    public function style(string $file): string
+    public function style(string $href): string
     {
         return Html::tag('link', attr: [
             'rel'  => 'stylesheet',
-            'href' => $this->url($file),
+            'href' => $href,
         ]);
     }
 
-    public function preload(string $file): string
+    public function preload(string $href): string
     {
         return Html::tag('link', attr: [
             'rel'  => 'modulepreload',
-            'href' => $this->url($file),
+            'href' => $href,
         ]);
     }
 

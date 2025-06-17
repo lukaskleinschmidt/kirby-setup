@@ -27,7 +27,7 @@ function monolog(Stringable|string|null $message = null, array $context = []): ?
     }
 
     if ($message instanceof Throwable) {
-        return Monolog::error($message->getMessage(), [
+        return Monolog::logger()->error($message->getMessage(), [
             'file'  => $message->getFile(),
             'line'  => $message->getLine(),
             'trace' => $message->getTrace(),
@@ -46,11 +46,11 @@ function value(mixed $value, mixed ...$args): mixed
     return $value instanceof Closure ? $value(...$args) : $value;
 }
 
-function vite(array|string|null $entries = null)
+function vite(array|string|null $entries = null): Vite
 {
     if (is_null($entries)) {
         return new Vite();
     }
 
-    return new Vite()->entries((array) $entries);
+    return new Vite((array) $entries);
 }

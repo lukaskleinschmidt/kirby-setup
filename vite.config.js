@@ -10,6 +10,8 @@ export default defineConfig({
       input: [
         'resources/scripts/app.js',
         'resources/styles/app.css',
+        'resources/scripts/panel.js',
+        'resources/styles/panel.css',
       ],
       reload: [
         'site/layouts/**',
@@ -58,8 +60,8 @@ function kirby(options) {
             ]
           },
           https: {
-            key: env.VITE_DEV_SERVER_KEY,
-            cert: env.VITE_DEV_SERVER_CERT,
+            key: env.VITE_SERVER_KEY,
+            cert: env.VITE_SERVER_CERT,
           }
         }
       }, config);

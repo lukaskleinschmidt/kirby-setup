@@ -6,23 +6,23 @@ App::plugin('project/core', [
 
     // https://getkirby.com/docs/reference/plugins/extensions
 
-    'commands' => include 'commands.php',
-    'hooks'    => include 'hooks.php',
+    'commands' => include 'config/commands.php',
+    'hooks'    => include 'config/hooks.php',
 
-    'blockMethods'        => include 'methods/block.php',
-    'blocksMethods'       => include 'methods/blocks.php',
-    'collectionMethods'   => include 'methods/collection.php',
-    'fieldMethods'        => include 'methods/field.php',
-    'fileMethods'         => include 'methods/file.php',
-    'filesMethods'        => include 'methods/files.php',
-    'layoutColumnMethods' => include 'methods/layoutColumn.php',
-    'layoutMethods'       => include 'methods/layout.php',
-    'layoutsMethods'      => include 'methods/layouts.php',
-    'pageMethods'         => include 'methods/page.php',
-    'pagesMethods'        => include 'methods/pages.php',
-    'siteMethods'         => include 'methods/site.php',
-    'userMethods'         => include 'methods/user.php',
-    'usersMethods'        => include 'methods/users.php',
+    'blockMethods'        => include 'config/methods/block.php',
+    'blocksMethods'       => include 'config/methods/blocks.php',
+    'collectionMethods'   => include 'config/methods/collection.php',
+    'fieldMethods'        => include 'config/methods/field.php',
+    'fileMethods'         => include 'config/methods/file.php',
+    'filesMethods'        => include 'config/methods/files.php',
+    'layoutColumnMethods' => include 'config/methods/layoutColumn.php',
+    'layoutMethods'       => include 'config/methods/layout.php',
+    'layoutsMethods'      => include 'config/methods/layouts.php',
+    'pageMethods'         => include 'config/methods/page.php',
+    'pagesMethods'        => include 'config/methods/pages.php',
+    'siteMethods'         => include 'config/methods/site.php',
+    'userMethods'         => include 'config/methods/user.php',
+    'usersMethods'        => include 'config/methods/users.php',
 
     'templates' => [
         //
@@ -43,7 +43,7 @@ App::plugin('project/core', [
     ],
 
     'userModels' => [
-        //
+        'default' => \App\Core\User::class,
     ],
 
 ]);

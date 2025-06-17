@@ -76,7 +76,9 @@ class Plugins extends Collection
      */
     public static function load(?string $dir = null): void
     {
-        $dir ??= dirname(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0]['file']);
+        $dir ??= dirname(
+            debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0]['file']
+        );
 
         foreach (Dir::read($dir) as $dirname) {
             if (in_array(substr($dirname, 0, 1), ['.', '_']) === true) {
