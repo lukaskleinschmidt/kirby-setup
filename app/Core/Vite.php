@@ -51,13 +51,11 @@ class Vite implements Stringable
 
     public function asset(string $path, mixed $default = null): mixed
     {
-        if ($this->dev()) {
+        if ($this->dev() === true) {
             return $this->url($path);
         }
 
-        $manifest = $this->manifest();
-
-        if ($file = $manifest[$path]['file'] ?? null) {
+        if ($file = $this->manifest()[$path]['file'] ?? null) {
             return $this->url($file);
         }
 
@@ -73,7 +71,7 @@ class Vite implements Stringable
         $styles   = [];
         $vite     = [];
 
-        if ($this->dev()) {
+        if ($this->dev() === true) {
             $url        = $this->url('@vite/client');
             $vite[$url] = $this->script($url);
         }
@@ -85,7 +83,7 @@ class Vite implements Stringable
                 continue;
             }
 
-            $this->dev()
+            $this->dev() === true
                 ? $this->resolveFile($file, $scripts, $styles)
                 : $this->resolveProd($file, $styles, $scripts, $preloads);
         }
@@ -162,7 +160,11 @@ class Vite implements Stringable
 
     protected function exists(string $file): bool
     {
-        return file_exists(kirby()->root('base') . '/' . $file);
+        if ($this->dev() === true) {
+            return file_exists(kirby()->root('base') . '/' . $file);
+        }
+
+        return array_key_exists($file, $this->manifest());
     }
 
     protected function url(string $path): string

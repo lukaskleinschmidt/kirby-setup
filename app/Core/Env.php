@@ -25,9 +25,12 @@ class Env
     /**
      * Load the environment variables
      */
-    public static function load(string|array $paths): void
-    {
-        Dotenv::createImmutable($paths)->load();
+    public static function load(
+        string|array $paths,
+        string|array|null $names = null,
+        bool $merge = false
+    ): void {
+        Dotenv::createImmutable($paths, $names, $merge === false)->load();
     }
 
     /**
@@ -35,7 +38,7 @@ class Env
      */
     public static function enablePutenv(): void
     {
-        static::$putenv = true;
+        static::$putenv     = true;
         static::$repository = null;
     }
 
@@ -44,7 +47,7 @@ class Env
      */
     public static function disablePutenv(): void
     {
-        static::$putenv = false;
+        static::$putenv     = false;
         static::$repository = null;
     }
 
@@ -77,11 +80,13 @@ class Env
     /**
      * Get the value of a required environment variable
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public static function getOrFail(string $key): mixed
     {
-        return self::getOption($key)->getOrThrow(new RuntimeException("Environment variable [$key] has no value."));
+        return self::getOption($key)->getOrThrow(
+            new RuntimeException("Environment variable [$key] has no value.")
+        );
     }
 
     /**
