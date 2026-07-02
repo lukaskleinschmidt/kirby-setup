@@ -73,7 +73,11 @@ function kirby(options) {
         const host = server.config.server.host || address.address || 'localhost';
         const port = server.config.server.port || address.port || 5173;
 
-        fs.writeFileSync(file, `${protocol}://${host}:${port}`);
+        const base = host.includes(':')
+          ? `${protocol}://[${host}]:${port}`
+          : `${protocol}://${host}:${port}`;
+
+        fs.writeFileSync(file, base);
       });
 
       process.on('exit', () => {
