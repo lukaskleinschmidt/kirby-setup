@@ -2,7 +2,7 @@
 An opinionated setup for Kirby CMS projects.
 
 ## Requirements
-- PHP 8.4
+- PHP 8.5
 - Node.js 20
 
 ## Installation via Composer
@@ -17,7 +17,7 @@ npm install
 
 ### Create a certificate for local development:
 ```
-mkcert -key-file storage/key.pem -cert-file storage/cert.pem localhost 127.0.0.1
+mkcert -key-file storage/key.pem -cert-file storage/cert.pem localhost 127.0.0.1 ::1
 ``` 
 
 ### Start the development server:
