@@ -85,20 +85,20 @@ class Plugins extends Collection
                 continue;
             }
 
-            $dir = __DIR__ . '/' . $dirname;
+            $path = __DIR__ . '/' . $dirname;
 
-            if (is_dir($dir) !== true) {
+            if (is_dir($path) !== true) {
                 continue;
             }
 
-            $entry  = $dir . '/index.php';
-            $script = $dir . '/index.js';
-            $styles = $dir . '/index.css';
+            $entry  = $path . '/index.php';
+            $script = $path . '/index.js';
+            $styles = $path . '/index.css';
 
             if (is_file($entry) === true) {
                 F::loadOnce($entry, allowOutput: false);
             } elseif (is_file($script) === true || is_file($styles) === true) {
-                App::plugin(name: 'plugins/' . $dirname, extends: [], root: $dir);
+                App::plugin(name: 'plugins/' . $dirname, extends: [], root: $path);
             } else {
                 continue;
             }
